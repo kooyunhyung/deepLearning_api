@@ -1,44 +1,31 @@
-from fastapi import FastAPI, Depends, HTTPException
-from typing import List
-from sqlalchemy.orm import Session
+from fastapi import FastAPI, Depends, exception_handlers
+from starlette import status
+from starlette.responses import JSONResponse
+
+from api import api_router
 from database import SessionLocal, engine
-import crud
-import models
-import schemas
+from student import models
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+async def not_found(request, exc):
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND, content={"detail": [{"msg": "Not Found."}]}
+    )
 
+exception_handlers = {404: not_found}
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+app = FastAPI(exception_handlers=exception_handlers, openapi_url="")
 
-STUDENTS_ROUTE = "/students"
+api = FastAPI(
+    title="Research project API",
+    description="Welcome to Image Similarity API documentation! Here you will able to discover all of the ways you can interact with the Image Similarity API.",
+    root_path="/api/v1",
+    docs_url="/docs",
+    openapi_url="/docs/openapi.json",
+    redoc_url="/redoc",
+)
 
-@app.post(f"{STUDENTS_ROUTE}/insert", response_model=schemas.Student)
-def create_student(student: schemas.Student, db: Session = Depends(get_db)):
-    return crud.create_student(db, student)
+api.include_router(api_router)
 
-
-@app.get(f"{STUDENTS_ROUTE}", response_model=List[schemas.Student])
-def read_student(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    students = crud.get_students(db, skip=skip, limit=limit)
-    return students
-
-
-@app.put(f"{STUDENTS_ROUTE}/update/{{student_id}}", response_model=schemas.Student)
-def update_student(student: schemas.StudentUpdate, student_id: int, db: Session = Depends(get_db)):
-    student = crud.update_student(db, student_id, student)
-    return student
-
-
-@app.delete(f"{STUDENTS_ROUTE}/update/{{student_id}}")
-def delete_student(student_id: int, db: Session = Depends(get_db)):
-    response = crud.delete_student(db, student_id)
-    return response
+app.mount("/api/v1", app=api)

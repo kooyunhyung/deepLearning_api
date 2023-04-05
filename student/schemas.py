@@ -2,8 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-class Student(BaseModel):
-    id: int
+class Shirts(BaseModel):
     name: str
     dept_name: str
     tot_cred: int
