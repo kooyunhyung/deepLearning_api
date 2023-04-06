@@ -12,7 +12,7 @@ def create_shirts(db: Session, shirts: schemas.Shirts):
     db_shirts = models.Test(img_file=shirts.img_file, label=shirts.label)
     db.add(db_shirts)
     db.commit()
-    db.refresh(db.shirts)
+    db.refresh(db_shirts)
     return db_shirts
 
 

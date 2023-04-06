@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-class Shirts(BaseModel):
+class Students(BaseModel):
     name: str
     dept_name: str
     tot_cred: int
