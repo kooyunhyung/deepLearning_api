@@ -3,6 +3,15 @@ from typing import Optional
 
 
 class Students(BaseModel):
+    id: int
+    name: str
+    dept_name: str
+    tot_cred: int
+
+    class Config:
+        orm_mode = True
+
+class StudentCreate(BaseModel):
     name: str
     dept_name: str
     tot_cred: int

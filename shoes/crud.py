@@ -8,7 +8,7 @@ import shoes.schemas as schemas
 def get_shoes(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Test).offset(skip).limit(limit).all()
 
-def create_shoes(db: Session, shoes: schemas.Shoes):
+def create_shoes(db: Session, shoes: schemas.ShoesCreate):
     db_shoes = models.Test(img_file=shoes.img_file, label=shoes.label)
     db.add(db_shoes)
     db.commit()

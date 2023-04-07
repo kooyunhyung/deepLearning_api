@@ -10,7 +10,7 @@ router = APIRouter()
 SHOES_ROUTE = "/shoes"
 
 @router.post(f"{SHOES_ROUTE}/insert", response_model=schemas.Shoes)
-def create_shoes(shoes: schemas.Shoes, db: Session = Depends(get_db)):
+def create_shoes(shoes: schemas.ShoesCreate, db: Session = Depends(get_db)):
     return crud.create_shoes(db, shoes)
 
 

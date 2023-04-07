@@ -10,7 +10,7 @@ router = APIRouter()
 STUDENTS_ROUTE = "/students"
 
 @router.post(f"{STUDENTS_ROUTE}/insert", response_model=schemas.Students)
-def create_student(student: schemas.Students, db: Session = Depends(get_db)):
+def create_student(student: schemas.StudentCreate, db: Session = Depends(get_db)):
     return crud.create_student(db, student)
 
 
