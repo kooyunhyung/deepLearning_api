@@ -3,10 +3,7 @@ from starlette import status
 from starlette.responses import JSONResponse
 
 from api import api_router
-from database import SessionLocal, engine
-from student import models
 
-models.Base.metadata.create_all(bind=engine)
 
 async def not_found(request, exc):
     return JSONResponse(
