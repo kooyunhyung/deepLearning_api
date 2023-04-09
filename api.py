@@ -1,11 +1,15 @@
 from typing import Optional, List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from pydantic import BaseModel
 from starlette.responses import JSONResponse
 
 from shirts.views import router as shirts_router
-from shoes.views import router as shoes_router
+from coat.views import router as coat_router
+from hood_t.views import router as hood_t_router
+from sweater.views import router as sweater_router
+from jumper.views import router as jumper_router
+from dress.views import router as dress_router
 
 class ErrorMessage(BaseModel):
     msg: str
@@ -25,4 +29,8 @@ api_router = APIRouter(
 )
 
 api_router.include_router(shirts_router, tags=["shirts"])
-api_router.include_router(shoes_router, tags=["shoes"])
+api_router.include_router(coat_router, tags=["coat"])
+api_router.include_router(hood_t_router, tags=["hood_t"])
+api_router.include_router(sweater_router, tags=["sweater"])
+api_router.include_router(jumper_router, tags=["jumper"])
+api_router.include_router(dress_router, tags=["dress"])

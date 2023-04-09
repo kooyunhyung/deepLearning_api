@@ -26,7 +26,3 @@ api = FastAPI(
 api.include_router(api_router)
 
 app.mount("/api/v1", app=api)
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="210.115.229.254", port=8000)
